@@ -24,12 +24,20 @@ async def on_message(message):
     if message.content.startswith('register'):
         riot_id = message.content[9:]
         manager.add_player(riot_id)
-        await message.channel.send("Saved !")
+        embed = discord.Embed(title="Registration", description="Saved!", color=0x00ff00)
+        await message.channel.send(embed=embed)
     
     if message.content.startswith('unregister'):
         riot_id = message.content[11:]
         manager.remove_player(riot_id)
-        await message.channel.send("Removed !")
+        embed = discord.Embed(title="Unregistration", description="Removed!", color=0xff0000)
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith('list'):
+        embed = discord.Embed(title="List of players", color=0x00ff00)
+        for player in manager.playerList:
+            embed.add_field(name=player["gameName"], value=player["tagLine"], inline=True)
+        await message.channel.send(embed=embed)
 
     if message.content.startswith('stats'):
         for player in manager.playerList:
@@ -37,11 +45,11 @@ async def on_message(message):
             k = result[0]
             d = result[1]
             a = result[2]
-            await message.channel.send("Nom du joueur : " + str(player["gameName"]+"#"+player["tagLine"]))
-            await message.channel.send("Kills : " + str(k))
-            await message.channel.send("Deaths : " + str(d))
-            await message.channel.send("Assists : " + str(a))
-            await message.channel.send("ouais")
+            embed = discord.Embed(title=f"Stats for {player['gameName']}#{player['tagLine']}", color=0x00ff00)
+            embed.add_field(name="Kills", value=str(k), inline=True)
+            embed.add_field(name="Deaths", value=str(d), inline=True)
+            embed.add_field(name="Assists", value=str(a), inline=True)
+            await message.channel.send(embed=embed)
 
 # @tasks.loop(seconds=10)
 # async def back_task() :
