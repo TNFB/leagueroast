@@ -1,8 +1,7 @@
-# Fonction pour obtenir l'ID du joueur en fonction de son nom d'invocateur
 import json
 import requests
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 
 load_dotenv() 
 
